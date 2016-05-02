@@ -151,7 +151,11 @@ function wkhtmltopdf(input, options, callback) {
     }
   }
 
-  child.once('error', function(err) {});
+  child.on('error', function(err) {
+    if (options.debug) {
+      console.log('[node-wkhtmltopdf] [debug] ' + err.toString());
+    }
+  });
 
   child.stderr.on('data', function(err) {
     stderrMessages.push((err || '').toString());
