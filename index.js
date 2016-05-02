@@ -103,12 +103,12 @@ function wkhtmltopdf(input, options, callback) {
   child.on('exit', function(code) {
     if (code !== 0) {
       stderrMessages.push('wkhtmltopdf exited with code ' + code);
-      handleError(stderrMessages);
+      // handleError(stderrMessages);
     } else if (callback) {
       callback(null, stream); // stream is child.stdout
     }
   });
-    
+
   // setup error handling
   var stderrMessages = [];
   var stream = child.stdout;
