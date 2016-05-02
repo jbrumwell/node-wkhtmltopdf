@@ -141,7 +141,7 @@ function wkhtmltopdf(input, options, callback) {
     // call the callback if there is one
 
     if (callback) {
-      callback(errObj);
+      callback(errObj, stream);
     }
 
     // if not, or there are listeners for errors, emit the error event
@@ -149,10 +149,8 @@ function wkhtmltopdf(input, options, callback) {
       stream.emit('error', errObj);
     }
   }
-  
-  child.once('error', function(err) {
-    throw new Error(err); // critical error
-  });
+
+  child.once('error', function(err) {});
 
   child.stderr.on('data', function(err) {
     stderrMessages.push((err || '').toString());
@@ -160,7 +158,7 @@ function wkhtmltopdf(input, options, callback) {
       console.log('[node-wkhtmltopdf] [debug] ' + err.toString());
     }
   });
-  
+
   child.stdout.on('data', function(data) {
     if (options.debugStdOut) {
       console.log('[node-wkhtmltopdf] [debugStdOut] ' + data.toString());
